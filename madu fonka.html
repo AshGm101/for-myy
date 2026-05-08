@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 50%, #4a1942 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            overflow: hidden;
+            font-family: 'Noto Sans Ethiopic', 'Segoe UI', sans-serif;
+            padding: 20px;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 105, 180, 0.3);
+            font-size: 20px;
+            animation: floatUp linear infinite;
+            bottom: -50px;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(0.5) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-110vh) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 700px;
+        }
+
+        .message {
+            font-size: clamp(1.5rem, 5vw, 2.8rem);
+            color: #ffe4e1;
+            line-height: 1.6;
+            text-shadow: 0 2px 20px rgba(255, 105, 180, 0.3);
+        }
+
+        .message span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .signature {
+            margin-top: 40px;
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: #ff69b4;
+            opacity: 0;
+            animation: fadeInUp 1s ease 3.5s forwards;
+        }
+
+        .glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,105,180,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.8; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    <div class="glow"></div>
+    
+    <div class="container">
+        <div class="message" id="message"></div>
+        <div class="signature">yeni myy yeni demgfit</div>
+    </div>
+
+    <script>
+        const text = "just wanna say I love you min tebkesh neber that is all i know ena demo betam nafkeshignal kirtmat yehonsh lig";
+        const container = document.getElementById('message');
+        const words = text.split(' ');
+        
+        words.forEach((word, index) => {
+            const span = document.createElement('span');
+            span.textContent = word + '\u00A0';
+            span.style.animationDelay = `${index * 0.15}s`;
+            container.appendChild(span);
+        });
+
+        // Floating hearts
+        const heartsContainer = document.getElementById('hearts');
+        const heartSymbols = ['❤', '💖', '💗', '💕', '♥'];
+        
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            heartsContainer.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 10000);
+        }
+
+        setInterval(createHeart, 800);
+        
+        // Create initial hearts
+        for(let i = 0; i < 8; i++) {
+            setTimeout(createHeart, i * 300);
+        }
+    </script>
+</body>
+</html>
